@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E📈%3C/text%3E%3C/svg%3E">
+<title>BinaryView — терминал Smart Money для Pocket Option</title>
+<meta name="description" content="BinaryView: индикатор Smart Money (SMC) с авто-разметкой ордер-блоков и FVG, 45+ индикаторов, TradeFlow, сигналы и ИИ-наставник.">
+<meta name="theme-color" content="#05070d">
+<style>
+:root{--bg:#05070d;--s:#0c111c;--b:#1a2235;--t:#e8edf7;--m:#8b97ad;--a:#2f7bff;--a2:#6aa7ff;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:calc(70px + env(safe-area-inset-top,0px));scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--t);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+a{color:inherit;text-decoration:none}
+.w{max-width:1080px;margin:0 auto;padding:0 20px}
+section{padding:72px 0}
+h2{font-size:clamp(26px,4vw,40px);margin:8px 0 12px;letter-spacing:-.02em;line-height:1.15}
+.k{color:var(--a2);font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.p{color:var(--m);max-width:700px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:#05070dcc;backdrop-filter:blur(12px);border-bottom:1px solid var(--b)}
+nav .w{display:flex;align-items:center;gap:18px;height:60px}
+.lo{font-weight:800;font-size:19px;margin-right:auto}.lo b{color:var(--a)}
+.ls{display:flex;gap:18px;color:var(--m);font-size:14px}.ls a:hover{color:var(--t)}
+.bt{display:inline-block;padding:12px 22px;border-radius:12px;background:var(--a);color:#fff;font:600 16px system-ui,sans-serif;border:0;cursor:pointer;box-shadow:0 8px 30px #2f7bff55;transition:.2s}
+.bt:hover{transform:translateY(-2px)}
+.bt.o{background:transparent;border:1px solid var(--b);box-shadow:none}
+.sm{padding:8px 14px;font-size:14px}
+.g{background:linear-gradient(90deg,#2f7bff,#6ae0ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero{padding-top:56px;text-align:center;background:radial-gradient(60% 50% at 50% 0,#2f7bff33,transparent)}
+.hero h1{font-size:clamp(34px,6vw,64px);line-height:1.05;letter-spacing:-.03em;margin:16px auto;max-width:820px}
+.hero .p{margin:0 auto 24px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:22px 0 0}
+.chips span{border:1px solid var(--b);border-radius:99px;padding:5px 12px;font-size:13px;color:var(--m)}
+.term{margin:36px auto 0;background:var(--s);border:1px solid var(--b);border-radius:18px;overflow:hidden;text-align:left;box-shadow:0 30px 80px #2f7bff22}
+.bar{display:flex;gap:10px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--b);font-size:14px}
+.bar em{margin-left:auto;font-style:normal;font-size:12px;color:var(--a2)}
+canvas{display:block;width:100%;height:380px}
+.tr{display:flex;gap:10px;padding:12px 16px;border-top:1px solid var(--b)}
+.tr b{flex:1;text-align:center;padding:10px;border-radius:10px;background:#2ee6a622;color:#2ee6a6}.tr b+b{background:#ff5c7a22;color:#ff5c7a}
+ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));border-top:1px solid var(--b)}
+ol li{padding:14px 16px;font-size:13px;color:var(--m);opacity:.45;transition:.3s;border-right:1px solid var(--b)}
+ol li b{display:block;color:var(--t);font-size:14px;margin-bottom:2px}
+ol li.d{opacity:.8}ol li.on{opacity:1;background:#2f7bff1a}
+.gr{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:28px}
+.cd{background:var(--s);border:1px solid var(--b);border-radius:16px;padding:20px;transition:.25s}
+.cd:hover{border-color:var(--a);transform:translateY(-3px)}
+.cd b,.cd span{display:block}.cd b{margin-bottom:6px}.cd span{color:var(--m);font-size:14.5px}
+.cd em{display:inline-block;background:#2f7bff22;color:var(--a2);border-radius:8px;padding:2px 9px;font:700 12px system-ui;margin-bottom:10px}
+.vs{margin-top:28px;border:1px solid var(--b);border-radius:16px;overflow-x:auto}
+.vs div{display:grid;grid-template-columns:150px 1fr 1.4fr;min-width:640px;border-top:1px solid var(--b)}
+.vs div:first-child{border:0;font-weight:700;background:var(--s)}
+.vs span{padding:12px 16px;font-size:14px;color:var(--m)}.vs span:first-child{color:var(--t);font-weight:600}.vs span:last-child{color:var(--t)}
+.st{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;text-align:center}
+.st b{font-size:clamp(36px,6vw,56px);display:block}.st span{color:var(--m);font-size:14px}
+details{border:1px solid var(--b);border-radius:14px;padding:16px 18px;margin-top:10px;background:var(--s)}
+summary{cursor:pointer;font-weight:600}details p{color:var(--m);margin:10px 0 0}
+.cta{text-align:center;background:radial-gradient(50% 70% at 50% 100%,#2f7bff33,transparent)}
+.cta .p{margin:0 auto 24px}
+footer{border-top:1px solid var(--b);padding:32px 0;color:var(--m);font-size:14px}
+footer .l{display:flex;flex-wrap:wrap;gap:18px;margin:10px 0 18px}footer .l a{color:var(--a2)}
+footer small{display:block;font-size:12.5px;max-width:860px}
+.rv{opacity:0;transform:translateY(18px);transition:.7s}.rv.in{opacity:1;transform:none}
+@media(max-width:760px){.ls{display:none}canvas{height:300px}section{padding:52px 0}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<nav><div class="w">
+<a class="lo" href="#top">Binary<b>View</b></a>
+<div class="ls"><a href="#smc" data-e="Smart Money">Smart Money</a><a href="#entry" data-e="Входы">Входы</a><a href="#vs" data-e="Сравнение">Сравнение</a><a href="#feat" data-e="Возможности">Возможности</a><a href="#faq">FAQ</a></div>
+<button class="bt o sm" id="lg">EN</button>
+<a class="bt sm" href="https://t.me/trikzofficialbot" data-e="Открыть">Открыть</a>
+</div></nav>
+
+<header class="hero" id="top"><div class="w">
+<span class="k" data-e="Smart Money (SMC) для Pocket Option">Smart Money (SMC) для Pocket Option</span>
+<h1><span data-e="See the market through the eyes of ">Смотри на рынок глазами </span><span class="g" data-e="Smart Money.">Smart Money.</span></h1>
+<p class="p" data-e="Order blocks, imbalances, structure breaks and liquidity sweeps — the SMC indicator marks the chart for you and shows where to enter. Trade on your own Pocket Option account: same quotes and payouts, one-click entries or automated on the server.">Ордер-блоки, имбалансы, слом структуры и снятие ликвидности — индикатор SMC размечает график сам и показывает, где входить. Торгуешь на своём счёте Pocket Option: те же котировки и выплаты, вход в один клик или автоматически на сервере.</p>
+<a class="bt" href="https://t.me/trikzofficialbot" data-e="Open the terminal →">Открыть терминал →</a> <a class="bt o" href="#demo" data-e="Watch the demo ↓">Смотреть демо ↓</a>
+<div class="chips"><span data-e="Direct Pocket Option connection">Прямое подключение к Pocket Option</span><span data-e="Order blocks & FVG">Ордер-блоки и FVG</span><span>BOS / CHoCH</span><span>TradeFlow 24/7</span><span data-e="45+ indicators">45+ индикаторов</span></div>
+<div class="term" id="demo">
+<div class="bar"><b>EUR/USD OTC</b><span>SMC · 1M</span><em data-e="demo · generated data">демо · сгенерированные данные</em></div>
+<canvas id="c"></canvas>
+<div class="tr"><b data-e="↑ Buy">↑ Купить</b><b data-e="↓ Sell">↓ Продать</b></div>
+<ol id="st">
+<li><b data-e="1 · Liquidity">1 · Ликвидность</b><span data-e="Equal lows (EQL): the crowd’s stops pile up below them.">Равные минимумы (EQL): под ними копятся стопы толпы.</span></li>
+<li><b data-e="2 · Sweep">2 · Снятие ликвидности</b><span data-e="A wick pierces the level, takes the stops and returns.">Тень прокалывает уровень, забирает стопы и возвращается.</span></li>
+<li><b data-e="3 · Structure break">3 · Слом структуры</b><span data-e="An impulse breaks the high (CHoCH), leaving an FVG and an OB.">Импульс пробивает максимум (CHoCH), оставляет FVG и OB.</span></li>
+<li><b data-e="4 · Return to the OB">4 · Возврат в ордер-блок</b><span data-e="Reaction candle closes — arrow ↑, entry on the next candle.">Свеча реакции закрылась — стрелка ↑, вход на следующей свече.</span></li>
+<li><b data-e="5 · Continuation">5 · Продолжение</b><span data-e="BOS confirms the move. This is a teaching example.">BOS подтверждает движение. Это учебный пример.</span></li>
+</ol></div>
+</div></header>
+
+<section id="smc"><div class="w">
+<span class="k" data-e="Main feature">Главная фишка</span>
+<h2 data-e="Smart Money marks itself">Smart Money размечается сам</h2>
+<p class="p" data-e="The ICT / Smart Money method: where the crowd’s stops sit, where the big player built a position and where price will return. The indicator does the marking for you on any pair and timeframe. Every element has its own toggle and colour.">Методика ICT / Smart Money: где стоят стопы толпы, где набирал позицию крупный игрок и куда цена вернётся. Индикатор размечает график сам — на любой паре и таймфрейме. Каждый элемент включается своей галочкой, цвета — свои.</p>
+<div class="gr">
+<div class="cd rv"><em>OB</em><b data-e="Order blocks">Ордер-блоки</b><span data-e="The zone where a big player built a position before a strong move. Price often returns and bounces.">Зона, где крупный игрок набирал позицию перед сильным движением. Цена часто возвращается и отталкивается.</span></div>
+<div class="cd rv"><em>FVG</em><b data-e="Imbalances (FVG)">Имбалансы (FVG)</b><span data-e="A stretch price flew through too fast. The market likes to come back and fill it.">Участок, который цена пролетела слишком быстро. Рынок любит возвращаться и закрывать его.</span></div>
+<div class="cd rv"><em>BOS · CHoCH</em><b data-e="Market structure">Структура рынка</b><span data-e="BOS — the trend continues. CHoCH — the character changed, a reversal is more likely.">BOS — тренд продолжается. CHoCH — характер рынка сломался, разворот вероятнее.</span></div>
+<div class="cd rv"><em>EQL · SWEEP</em><b data-e="Liquidity">Ликвидность</b><span data-e="Equal highs and lows hold the stops. A wick pierce with a return is flagged as a sweep.">Равные максимумы и минимумы — там стоят стопы. Прокол тенью с возвратом помечается как снятие.</span></div>
+<div class="cd rv"><em>H / L</em><b data-e="Strong & weak extremes">Сильный и слабый экстремум</b><span data-e="Hints which high or low the market is likely to hunt next.">Подсказывает, какой максимум или минимум рынок, скорее всего, снимет следующим.</span></div>
+<div class="cd rv"><em>P / D</em><b data-e="Premium & discount">Премиум и дисконт</b><span data-e="Buys look better in the lower part of the range, sells in the upper. Zones are shaded on the chart.">Покупки интереснее в нижней части диапазона, продажи — в верхней. Зоны подсвечены на графике.</span></div>
+</div>
+<p class="p" style="margin-top:20px;font-size:14px" data-e="SMC is markup and setups, not a guarantee of results.">SMC — это разметка и сетапы, а не гарантия результата.</p>
+</div></section>
+
+<section id="entry"><div class="w">
+<span class="k" data-e="Entering a trade">Вход в сделку</span>
+<h2 data-e="Spotted a setup — three ways in">Увидел сетап — три способа войти</h2>
+<div class="gr">
+<div class="cd rv"><em>01</em><b data-e="Arrow → one click">Стрелка → один клик</b><span data-e="SMC draws an arrow ↑/↓ when the reaction candle closes at an order block. Buy and Sell buttons sit right there.">SMC ставит стрелку ↑/↓, когда закрылась свеча реакции у ордер-блока. Кнопки «Купить» и «Продать» рядом.</span></div>
+<div class="cd rv"><em>02</em><b data-e="Zone-touch order">Заявка по касанию зоны</b><span data-e="Draw a line or zone, set amount, time and direction. The server opens the trade when price touches it; a Telegram alert follows.">Нарисуй линию или зону, задай сумму, время и направление. Сервер откроет сделку при касании, уведомление придёт в Telegram.</span></div>
+<div class="cd rv"><em>03</em><b data-e="TradeFlow — server automation">TradeFlow — автоторговля на сервере</b><span data-e="Five strategies incl. Smart Money. Runs with the terminal closed: martingale, take/stop, trailing stop, trading hours.">Пять стратегий, включая Smart Money. Работает при закрытом терминале: мартингейл, тейк и стоп, трейлинг-стоп, часы работы.</span></div>
+</div>
+</div></section>
+
+<section id="vs"><div class="w">
+<span class="k" data-e="Comparison">Сравнение</span>
+<h2 data-e="Why a terminal if there is Pocket?">Зачем терминал, если есть Pocket?</h2>
+<p class="p" data-e="Bare Pocket means a cramped chart and few tools. BinaryView connects to the same account — you lose nothing and gain the whole arsenal.">Голый Pocket — это зажатый график и минимум инструментов. BinaryView подключается к твоему же счёту — ты ничего не теряешь, но получаешь весь арсенал.</p>
+<div class="vs rv">
+<div><span></span><span data-e="Bare Pocket Option">Голый Pocket Option</span><span>BinaryView</span></div>
+<div><span data-e="Chart">График</span><span data-e="Limited zoom, small candles">Зум зажат, свечи мелкие</span><span data-e="Free zoom, own scale, colours, full screen">Свободный зум, своя шкала, цвета, полный экран</span></div>
+<div><span data-e="Indicators">Индикаторы</span><span data-e="A small basic set">Небольшой базовый набор</span><span data-e="45+ with settings, colours and templates">45+ с настройками, цветами и шаблонами</span></div>
+<div><span data-e="Entries">Вход</span><span data-e="By hand, while at the chart">Только руками</span><span data-e="SMC arrows, zone orders, server-side TradeFlow">Стрелки SMC, заявки по зоне, TradeFlow на сервере</span></div>
+<div><span data-e="Drawing">Рисование</span><span data-e="A couple of lines">Пара линий</span><span data-e="15+ tools, magnet, Ctrl+Z / Ctrl+Y">15+ инструментов, магнит, Ctrl+Z / Ctrl+Y</span></div>
+<div><span data-e="Charts">Графиков</span><span>1</span><span data-e="Up to 4 live windows">До 4 живых окон</span></div>
+<div><span data-e="Help">Помощь</span><span data-e="On your own">Сам по себе</span><span data-e="AI mentor and signals board">ИИ-наставник и табло сигналов</span></div>
+<div><span data-e="Community">Сообщество</span><span data-e="Alone">В одиночку</span><span data-e="Master sessions, copy trading, top traders">Сессии мастера, копитрейдинг, топ трейдеров</span></div>
+<div><span data-e="Self-review">Работа над собой</span><span data-e="Plain trade history">Голая история сделок</span><span data-e="Trader journal with stats and notes">Дневник трейдера со статистикой и заметками</span></div>
+</div>
+<p class="p" style="margin-top:16px" data-e="The account and money are the same: the terminal connects to your Pocket Option account — demo and real.">Счёт и деньги — одни и те же: терминал подключается к твоему счёту Pocket Option — демо и реал.</p>
+</div></section>
+
+<section id="feat"><div class="w">
+<span class="k" data-e="Terminal">Терминал</span>
+<h2 data-e="Everything bare Pocket lacks — in one window">Всё, чего нет в голом Pocket, — в одном окне</h2>
+<div class="gr">
+<div class="cd rv"><b data-e="AI mentor">ИИ-наставник</b><span data-e="One click sends a screenshot of your chart; the mentor breaks down the setup.">Скрин графика в один клик — наставник разбирает сетап.</span></div>
+<div class="cd rv"><b data-e="Signals board">Табло сигналов</b><span data-e="Quality threshold, breakdown card, hit-rate stats, one-click entry.">Порог качества, разбор в карточке, статистика отработки, вход в один клик.</span></div>
+<div class="cd rv"><b data-e="Master sessions">Сессии мастера</b><span data-e="Watch an experienced trader live, with entries on your chart.">Сделки опытного трейдера в прямом эфире — точки входа на твоём графике.</span></div>
+<div class="cd rv"><b data-e="Copy trading">Копитрейдинг</b><span data-e="Follow a master; trades are copied with amount control and limits.">Подпишись на мастера — сделки копируются с контролем суммы и лимитами.</span></div>
+<div class="cd rv"><b data-e="Live feed">«В эфире»</b><span data-e="A live feed of open trades from terminal users.">Живая лента открытых сделок трейдеров терминала.</span></div>
+<div class="cd rv"><b data-e="Top traders">Топ трейдеров</b><span data-e="Daily ranking by real profit; you can hide yourself.">Ежедневный рейтинг по реальному профиту; себя можно скрыть.</span></div>
+<div class="cd rv"><b data-e="45+ indicators">45+ индикаторов</b><span data-e="Smart Money, Ichimoku, SuperTrend, UT Bot, liquidity pools, MACD…">Smart Money, Ichimoku, SuperTrend, UT Bot, пулы ликвидности, MACD…</span></div>
+<div class="cd rv"><b data-e="Multi-chart">Мультиграфик</b><span data-e="Up to 4 live charts, trading on the selected one.">До 4 живых графиков, торговля на выделенном окне.</span></div>
+<div class="cd rv"><b data-e="Price alerts">Алерты по цене</b><span data-e="Alert lines on any pair, even one not open on the chart.">Линия-алерт на любой паре, даже не открытой на графике.</span></div>
+<div class="cd rv"><b data-e="Patterns & levels">Паттерны и уровни</b><span data-e="Candle patterns, Inside Bar, Pivot Points, level “Bastion”.">Свечные паттерны, Inside Bar, Pivot Points, «Бастион уровней».</span></div>
+<div class="cd rv"><b data-e="Trader journal">Дневник трейдера</b><span data-e="Stats, tags, notes, result card, device sync.">Статистика, теги, заметки, карточка результата, синхронизация.</span></div>
+<div class="cd rv"><b data-e="Deposit protection">Защита депозита</b><span data-e="News danger windows, black box, trade amount limit, low-payout warning.">Окна новостей, чёрный ящик, лимит суммы сделки, предупреждение о низкой выплате.</span></div>
+</div>
+</div></section>
+
+<section><div class="w st">
+<div><b class="g" data-n="45" data-s="+">45+</b><span data-e="Indicators">Индикаторов</span></div>
+<div><b class="g" data-n="5">5</b><span data-e="TradeFlow strategies">Стратегий TradeFlow</span></div>
+<div><b class="g" data-n="4">4</b><span data-e="Charts at once">Графика сразу</span></div>
+<div><b class="g">24/7</b><span data-e="Quote stream">Поток котировок</span></div>
+</div></section>
+
+<section id="faq"><div class="w">
+<span class="k">FAQ</span>
+<h2 data-e="In short">Коротко о главном</h2>
+<details><summary data-e="What is BinaryView?">Что такое BinaryView?</summary><p data-e="A terminal for trading on Pocket Option: SMC indicator with auto markup, 45+ indicators, zone-touch orders, server-side TradeFlow, AI mentor, signals board, copy trading and a trader journal — in one window.">Терминал для торговли на Pocket Option: индикатор SMC с авто-разметкой, 45+ индикаторов, вход по касанию зоны, TradeFlow на сервере, ИИ-наставник, табло сигналов, копитрейдинг и дневник — в одном окне.</p></details>
+<details><summary data-e="Is it the same Pocket Option account?">Это тот же счёт Pocket Option?</summary><p data-e="Yes. You trade on your own Pocket Option account — demo and real are both supported.">Да. Ты торгуешь на своём счёте Pocket Option, работают и демо, и реальный счёт.</p></details>
+<details><summary data-e="How does TradeFlow work?">Как работает TradeFlow?</summary><p data-e="It runs on a server: pick a strategy, pairs, amount and rules (take, stop, martingale, hours). Trades open even with the terminal closed. Stop it any time and test settings on demo first.">Работает на сервере: выбираешь стратегию, пары, сумму и правила (тейк, стоп, мартингейл, часы). Сделки открываются при закрытом терминале. Остановить можно в любой момент, настройки лучше сначала обкатать на демо.</p></details>
+<details><summary data-e="Do you guarantee profit?">Вы гарантируете прибыль?</summary><p data-e="No. No tool guarantees profit. SMC markup, indicators, signals and TradeFlow are analysis and execution aids. The chart above is a generated teaching example.">Нет. Никакой инструмент не гарантирует прибыль. Разметка SMC, индикаторы, сигналы и TradeFlow — помощь в анализе и исполнении. График выше — сгенерированный учебный пример.</p></details>
+<details><summary data-e="How do I get access?">Как получить доступ?</summary><p data-e="Message the author on Telegram: @trikzofficialbot.">Напиши автору в Telegram: @trikzofficialbot.</p></details>
+</div></section>
+
+<section class="cta"><div class="w">
+<h2 data-e="Give your account a proper terminal.">Дай своему счёту нормальный терминал.</h2>
+<p class="p" data-e="Smart Money on the chart, zone-touch entries and TradeFlow — start with a message to the author.">Smart Money на графике, вход по касанию зоны и TradeFlow — начни с сообщения автору.</p>
+<a class="bt" href="https://t.me/trikzofficialbot" data-e="Message on Telegram →">Написать в Telegram →</a>
+</div></section>
+
+<footer><div class="w">
+<b style="color:var(--t)">BinaryView</b> · binaryview.io · <span data-e="personal non-commercial project by Trikz">личный некоммерческий проект, автор — Trikz</span>
+<div class="l"><a href="https://t.me/trikzofficialbot">Telegram @trikzofficialbot</a><a href="https://www.youtube.com/@HouseOfTrikz">YouTube @HouseOfTrikz</a></div>
+<small data-e="Binary options trading carries a high risk of losing capital and is not suitable for everyone. Indicators, signals and examples on this page are technical analysis tools, not a guarantee of profit and not financial advice. Past results do not guarantee future ones. Trade only with money you can afford to lose.">Торговля бинарными опционами сопряжена с высоким риском потери капитала и подходит не всем. Индикаторы, сигналы и примеры на этой странице — инструменты технического анализа, а не гарантия прибыли и не финансовая рекомендация. Прошлые результаты не гарантируют будущих. Торгуйте только теми средствами, потерю которых можете себе позволить.</small>
+</div></footer>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+$$('[data-e]').forEach(e=>e.dataset.r=e.textContent);
+let L='ru';
+function setL(l){L=l;document.documentElement.lang=l;$$('[data-e]').forEach(e=>e.textContent=l=='en'?e.dataset.e:e.dataset.r);$('#lg').textContent=l=='en'?'RU':'EN';try{localStorage.setItem('l',l)}catch(e){}}
+$('#lg').onclick=()=>setL(L=='en'?'ru':'en');
+try{setL(localStorage.getItem('l')||'ru')}catch(e){setL('ru')}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+$$('.rv').forEach(e=>io.observe(e));
+const co=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;co.unobserve(e.target);const el=e.target,n=+el.dataset.n,sf=el.dataset.s||'',t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/1200);el.textContent=Math.round(n*(1-Math.pow(1-p,3)))+sf;if(p<1)requestAnimationFrame(f)})(t0)}));
+$$('[data-n]').forEach(e=>co.observe(e));
+(()=>{
+const cv=$('#c'),x=cv.getContext('2d'),N=60,lo=99.2,hi=110;let s=7;const r=()=>(s=s*16807%2147483647)/2147483647;
+const Wp=[[0,100],[10,104],[14,101.8],[18,102.4],[22,101.6],[24,101.4],[28,101.9],[32,106],[34,106.4],[37,104.6],[39,102.6],[43,105],[46,106.8],[50,107.8],[59,109.5]];
+const ov={25:[101.4,101,101.5,100.95],26:[101,101.4,101.6,99.6],29:[101.9,102.9,103,101.8],30:[102.9,105,105.2,102.8],31:[105,105.6,105.9,103.5],40:[102.4,101.9,102.5,101.4],41:[101.9,103.1,103.3,101.8]};
+const ip=i=>{for(let k=1;k<Wp.length;k++)if(i<=Wp[k][0]){const a=Wp[k-1],b=Wp[k];return a[1]+(b[1]-a[1])*(i-a[0])/(b[0]-a[0])}return 109.5};
+const C=[];for(let i=0;i<N;i++){const p=i?C[i-1].c:100;let o,c,h,l;if(ov[i])[o,c,h,l]=ov[i];else{o=p;c=ip(i)+(r()-.5)*.5;h=Math.max(o,c)+r()*.35;l=Math.min(o,c)-r()*.35}C.push({o,c,h,l})}
+C[19].l=C[23].l=100.9;
+const hi1=Math.min(104.8,Math.max(...C.slice(5,15).map(k=>k.h))),bl=Math.max(...C.slice(31,37).map(k=>k.h));
+let bos=59;for(let i=42;i<N;i++)if(C[i].c>bl){bos=i;break}
+const TH=[23,26,30,41,bos],lis=$$('#st li'),rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+let t=rm?N+8:0,last=0,cur=-2;
+function draw(){
+const d=devicePixelRatio||1,w=cv.clientWidth,h=cv.clientHeight;if(cv.width!=Math.round(w*d)){cv.width=Math.round(w*d);cv.height=Math.round(h*d)}
+x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,w,h);x.font='11px system-ui';x.lineWidth=1;
+const pl=6,pr=48,pt=10,pb=10,cw=(w-pl-pr)/N,X=i=>pl+(i+.5)*cw,Y=p=>pt+(hi-p)/(hi-lo)*(h-pt-pb),k=Math.min(N,Math.floor(t)+1),A=st=>Math.max(0,Math.min(1,(t-st)/1.5));
+for(let p=100;p<=110;p+=2){x.strokeStyle='#ffffff10';x.beginPath();x.moveTo(0,Y(p));x.lineTo(w-pr,Y(p));x.stroke();x.fillStyle='#8b97ad';x.fillText(p.toFixed(2),w-pr+6,Y(p)+4)}
+const zone=(i0,i1,p0,p1,st,col,tx)=>{const a=A(st);if(!a)return;const e=Math.min(i1,k-1),zx=X(i0)-cw/2,zw=(e-i0+1)*cw;x.globalAlpha=a;x.fillStyle=col+'33';x.strokeStyle=col;x.fillRect(zx,Y(p1),zw,Y(p0)-Y(p1));x.strokeRect(zx,Y(p1),zw,Y(p0)-Y(p1));x.fillStyle=col;x.fillText(tx,zx+4,Y(p1)+12);x.globalAlpha=1};
+const line=(i0,i1,p,st,col,tx,dy)=>{const a=A(st);if(!a)return;const e=Math.min(i1,k-1);x.globalAlpha=a;x.strokeStyle=col;x.setLineDash([4,4]);x.beginPath();x.moveTo(X(i0),Y(p));x.lineTo(X(e),Y(p));x.stroke();x.setLineDash([]);x.fillStyle=col;x.fillText(tx,X(e)-10,Y(p)+dy);x.globalAlpha=1};
+zone(25,42,100.6,101.7,30,'#2f7bff','OB');zone(29,41,103,103.5,31,'#a78bfa','FVG');
+line(19,25,100.9,23,'#8b97ad','EQL',14);line(10,30,hi1,30,'#6aa7ff','CHoCH',-5);line(33,bos,bl,bos,'#2ee6a6','BOS',-5);
+for(let i=0;i<k;i++){const c=C[i],u=c.c>=c.o;x.strokeStyle=x.fillStyle=u?'#2ee6a6':'#ff5c7a';x.beginPath();x.moveTo(X(i),Y(c.h));x.lineTo(X(i),Y(c.l));x.stroke();x.fillRect(X(i)-cw*.35,Math.min(Y(c.o),Y(c.c)),cw*.7,Math.max(1,Math.abs(Y(c.o)-Y(c.c))))}
+if(A(26)){x.globalAlpha=A(26);x.fillStyle='#fff';x.fillText('SWEEP',X(26)-18,Y(99.6)+14);x.globalAlpha=1}
+if(A(41)){const a=A(41),ax=X(41),ay=Y(C[41].l)+8;x.globalAlpha=a;x.fillStyle='#2ee6a6';x.beginPath();x.moveTo(ax,ay);x.lineTo(ax-7,ay+14);x.lineTo(ax+7,ay+14);x.fill();x.globalAlpha=1}
+const lc=C[k-1].c,ly=Y(lc);x.strokeStyle='#2f7bff';x.setLineDash([2,3]);x.beginPath();x.moveTo(X(k-1),ly);x.lineTo(w-pr,ly);x.stroke();x.setLineDash([]);x.fillStyle='#2f7bff';x.fillRect(w-pr,ly-8,pr,16);x.fillStyle='#fff';x.fillText(lc.toFixed(2),w-pr+6,ly+4);
+let n=-1;TH.forEach((v,i)=>{if(t>=v)n=i});if(n!=cur){cur=n;lis.forEach((li,i)=>{li.className=i==n?'on':i<n?'d':''})}
+}
+function loop(ts){const dt=Math.min(.05,(ts-last)/1000||0);last=ts;if(!rm){t+=dt*4.5;if(t>N+8)t=0}draw();if(!rm)requestAnimationFrame(loop)}
+if(rm){draw();addEventListener('resize',draw)}else requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
